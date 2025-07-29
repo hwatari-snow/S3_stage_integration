@@ -12,7 +12,7 @@
 >参考にした[リンク](https://docs.snowflake.com/en/user-guide/data-load-s3-config-storage-integration)
 
 **統合のフロー**
-![サンプル](./image/storage-integration-s3.png "サンプル")
+![サンプル](storage-integration-s3.png "サンプル")
 1. 外部ステージは認証のためにStorage統合オブジェクトを参照する
 2. SnowflakeはS3バケットに参照するためのIAMユーザの作成を行う
 3. AWSの管理者は、IAMユーザーにステージで定義されるバケットへのアクセス権を付与する
@@ -91,7 +91,7 @@ SnowflakeからS3 バケットを使用してデータをロードおよびア�
 - ロール名：`snowflakerole_capstone_hwatari`
 - 概要：↓
 
-![](./image/role.png)
+![](role.png)
 
 
 ### ステップ3：Snowflakeでクラウドストレージ統合を作成
@@ -99,6 +99,14 @@ SnowflakeからS3 バケットを使用してデータをロードおよびア�
 [CREATE STORAGE INTEGRATION](https://docs.snowflake.com/en/sql-reference/sql/create-storage-integration)コマンドを使用してストレージ統合を作成する。ストレージ統合とは、S3クラウドストレージ用に生成されたIdentity and Access Management (IAM) ユーザーと、オプションで許可またはブロックされたストレージ場所（バケット）のセットを格納するSnowflakeオブジェクトである。**ユーザーはステージの作成時やデータのロード時に認証情報を入力する必要がなくなる。**
 
 単一のストレージ統合で複数の外部ステージ（つまりS3ステージ）をサポートできます。ステージ定義のURLは、STORAGE_ALLOWED_LOCATIONSパラメータに指定されたS3バケット（およびオプションのパス）と一致している必要があります。
+
+deddeswssws
+
+swdw
+
+
+dede
+
 
 
 
