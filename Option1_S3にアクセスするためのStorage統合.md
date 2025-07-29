@@ -91,7 +91,7 @@ SnowflakeからS3 バケットを使用してデータをロードおよびア�
 - ロール名：`snowflakerole_capstone_hwatari`
 - 概要：↓
 
-![[role.png]]
+![](role.png)
 
 
 ### ステップ3：Snowflakeでクラウドストレージ統合を作成
