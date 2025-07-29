@@ -12,7 +12,7 @@
 >参考にした[リンク](https://docs.snowflake.com/en/user-guide/data-load-s3-config-storage-integration)
 
 **統合のフロー**
-![[Pasted image 20250729093018.png]]
+![[storage-integration-s3.png]]
 1. 外部ステージは認証のためにStorage統合オブジェクトを参照する
 2. SnowflakeはS3バケットに参照するためのIAMユーザの作成を行う
 3. AWSの管理者は、IAMユーザーにステージで定義されるバケットへのアクセス権を付与する
@@ -91,7 +91,7 @@ SnowflakeからS3 バケットを使用してデータをロードおよびア�
 - ロール名：`snowflakerole_capstone_hwatari`
 - 概要：↓
 
-![[Pasted image 20250729102307.png]]
+![[role.png]]
 
 
 ### ステップ3：Snowflakeでクラウドストレージ統合を作成
