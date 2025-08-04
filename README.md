@@ -41,42 +41,48 @@ Snowflakeが必要とするS3へのアクセス権限を定義したIAMポリシ
   `YOUR_BUCKET_NAME` や `YOUR_PATH` の部分は、ご自身の環境に合わせて変更してください。
 
   ```json
-  {
-      "Version": "2012-10-17",
-      "Statement": [
-          {
-              "Effect": "Allow",
-              "Action": [
-                "s3:PutObject",
-                "s3:GetObject",
-                "s3:GetObjectVersion",
-                "s3:DeleteObject",
-                "s3:DeleteObjectVersion"
-              ],
-              "Resource": "arn:aws:s3:::<YOUR_BUCKET_NAME>/<YOUR_PATH>/*"
-          },
-          {
-              "Effect": "Allow",
-              "Action": [
-                  "s3:ListBucket",
-                  "s3:GetBucketLocation"
-              ],
-              "Resource": "arn:aws:s3:::<YOUR_BUCKET_NAME>",
-              "Condition": {
-                  "StringLike": {
-                      "s3:prefix": [
-                          "<YOUR_PATH>/*"
-                      ]
-                  }
-              }
-          }
-      ]
-  }
+ {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+              "s3:PutObject",
+              "s3:GetObject",
+              "s3:GetObjectVersion",
+              "s3:DeleteObject",
+              "s3:DeleteObjectVersion"
+            ],
+            "Resource": ["arn:aws:s3:::<capstone-hwatari>/<kapa-0001>/*",
+            "arn:aws:s3:::<capstone-hwatari>/<kbfi-0001>/*"]
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket",
+                "s3:GetBucketLocation"
+            ],
+            "Resource": "arn:aws:s3:::<capstone-hwatari>",
+            "Condition": {
+                "StringLike": {
+                    "s3:prefix": [
+                        "<capstone-hwatari>/*"
+                    ]
+                }
+            }
+        }
+    ]
+}
   ```
 
 #### 2. IAMロールの作成
 
 作成したIAMポリシーをアタッチするIAMロールを作成します。この際、信頼されたエンティティとして、後ほどSnowflake側で作成するIAMユーザーを指定する必要があります（この時点ではプレースホルダーで作成し、後で更新します）。
+
+作成したポリシーをアタッチするためのAWSのロールの作成を行う。
+作成方法に関しては[ドキュメント](https://docs.snowflake.com/en/user-guide/data-load-s3-config-storage-integration)を参照、作成結果は下記の通り。
+- ロール名：`snowflakerole_capstone_hwatari`
+- 概要：↓
 
 ![IAMロールの概要](image/role.png)
 
