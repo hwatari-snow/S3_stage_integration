@@ -102,8 +102,8 @@ CREATE STORAGE INTEGRATION capstone_s3_integration
   TYPE = EXTERNAL_STAGE
   STORAGE_PROVIDER = 'S3'
   ENABLED = TRUE
-  STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::<YOUR_AWS_ACCOUNT_ID>:role/<YOUR_ROLE_NAME>'
-  STORAGE_ALLOWED_LOCATIONS = ('s3://<YOUR_BUCKET_NAME>/');
+  STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::021891591907:role/snowflakerole_capstone_hwatari'
+  STORAGE_ALLOWED_LOCATIONS = ('s3://capstone-hwatari/')
 ```
 
 #### 2. SnowflakeのIAMユーザー情報を取得
@@ -125,12 +125,12 @@ DESC INTEGRATION capstone_s3_integration;
         {
             "Effect": "Allow",
             "Principal": {
-                "AWS": "<STORAGE_AWS_IAM_USER_ARN>"
+                "AWS": "arn:aws:iam::392051336358:user/3r201000-s"
             },
             "Action": "sts:AssumeRole",
             "Condition": {
                 "StringEquals": {
-                    "sts:ExternalId": "<STORAGE_AWS_EXTERNAL_ID>"
+                    "sts:ExternalId": "HU05376_SFCRole=7_DytmO8J69SwIm2voPNaSYCrPRR4="
                 }
             }
         }
@@ -143,9 +143,11 @@ DESC INTEGRATION capstone_s3_integration;
 最後に、作成したストレージ統合を利用して外部ステージを作成します。
 
 ```sql
-CREATE OR REPLACE STAGE capstone_s3_stage
+USE SCHEMA capstone.public;
+
+CREATE or replace STAGE capstone_s3_stage
   STORAGE_INTEGRATION = capstone_s3_integration
-  URL = 's3://<YOUR_BUCKET_NAME>/<YOUR_PATH>/';
+  URL = 's3://capstone-hwatari//'
 ```
 
 これで、SnowflakeからS3バケットへ安全にアクセスする準備が整いました。
