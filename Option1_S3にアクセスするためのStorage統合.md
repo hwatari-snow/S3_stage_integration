@@ -91,14 +91,9 @@ SnowflakeからS3 バケットを使用してデータをロードおよびア�
 - ロール名：`snowflakerole_capstone_hwatari`
 - 概要：↓
 
-![](role.png)
+![](image/role.png)
 
 
-### ステップ3：Snowflakeでクラウドストレージ統合を作成
-
-[CREATE STORAGE INTEGRATION](https://docs.snowflake.com/en/sql-reference/sql/create-storage-integration)コマンドを使用してストレージ統合を作成する。ストレージ統合とは、S3クラウドストレージ用に生成されたIdentity and Access Management (IAM) ユーザーと、オプションで許可またはブロックされたストレージ場所（バケット）のセットを格納するSnowflakeオブジェクトである。**ユーザーはステージの作成時やデータのロード時に認証情報を入力する必要がなくなる。**
-
-単一のストレージ統合で複数の外部ステージ（つまりS3ステージ）をサポートできます。ステージ定義のURLは、STORAGE_ALLOWED_LOCATIONSパラメータに指定されたS3バケット（およびオプションのパス）と一致している必要があります。
 
 
 
