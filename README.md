@@ -41,20 +41,19 @@ Snowflakeが必要とするS3へのアクセス権限を定義したIAMポリシ
   `YOUR_BUCKET_NAME` や `YOUR_PATH` の部分は、ご自身の環境に合わせて変更してください。
 
 ```json
- {
+{
     "Version": "2012-10-17",
     "Statement": [
         {
             "Effect": "Allow",
             "Action": [
-              "s3:PutObject",
-              "s3:GetObject",
-              "s3:GetObjectVersion",
-              "s3:DeleteObject",
-              "s3:DeleteObjectVersion"
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:GetObjectVersion",
+                "s3:DeleteObject",
+                "s3:DeleteObjectVersion"
             ],
-            "Resource": ["arn:aws:s3:::<capstone-hwatari>/<kapa-0001>/*",
-            "arn:aws:s3:::<capstone-hwatari>/<kbfi-0001>/*"]
+            "Resource": "arn:aws:s3:::capstone-hwatari/*"
         },
         {
             "Effect": "Allow",
@@ -62,11 +61,11 @@ Snowflakeが必要とするS3へのアクセス権限を定義したIAMポリシ
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::<capstone-hwatari>",
+            "Resource": "arn:aws:s3:::capstone-hwatari",
             "Condition": {
                 "StringLike": {
                     "s3:prefix": [
-                        "<capstone-hwatari>/*"
+                        "*"
                     ]
                 }
             }
@@ -98,7 +97,7 @@ Snowflakeが必要とするS3へのアクセス権限を定義したIAMポリシ
 `CREATE STORAGE INTEGRATION` コマンドで、S3への接続情報を定義します。`STORAGE_AWS_ROLE_ARN` にはステップ1で作成したIAMロールのARNを、`STORAGE_ALLOWED_LOCATIONS` にはアクセスを許可するS3バケットを指定します。
 
 ```sql
-CREATE STORAGE INTEGRATION capstone_s3_integration
+CREATE or replace STORAGE INTEGRATION capstone_s3_integration
   TYPE = EXTERNAL_STAGE
   STORAGE_PROVIDER = 'S3'
   ENABLED = TRUE
@@ -130,7 +129,7 @@ DESC INTEGRATION capstone_s3_integration;
             "Action": "sts:AssumeRole",
             "Condition": {
                 "StringEquals": {
-                    "sts:ExternalId": "HU05376_SFCRole=7_DytmO8J69SwIm2voPNaSYCrPRR4="
+                    "sts:ExternalId": "HU05376_SFCRole=7_l0cW1Ki71pU8t9bVpy2QZnPclME="
                 }
             }
         }
@@ -147,7 +146,7 @@ USE SCHEMA capstone.public;
 
 CREATE or replace STAGE capstone_s3_stage
   STORAGE_INTEGRATION = capstone_s3_integration
-  URL = 's3://capstone-hwatari//'
+  URL = 's3://capstone-hwatari/'
 ```
 
 これで、SnowflakeからS3バケットへ安全にアクセスする準備が整いました。
