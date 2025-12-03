@@ -53,7 +53,7 @@ Snowflakeが必要とするS3へのアクセス権限を定義したIAMポリシ
                 "s3:DeleteObject",
                 "s3:DeleteObjectVersion"
             ],
-            "Resource": "arn:aws:s3:::capstone-hwatari/*"
+            "Resource": "arn:aws:s3:::aaaaaaaaa/*"
         },
         {
             "Effect": "Allow",
@@ -61,7 +61,7 @@ Snowflakeが必要とするS3へのアクセス権限を定義したIAMポリシ
                 "s3:ListBucket",
                 "s3:GetBucketLocation"
             ],
-            "Resource": "arn:aws:s3:::capstone-hwatari",
+            "Resource": "arn:aws:s3:::aaaaaaaa-hwatari",
             "Condition": {
                 "StringLike": {
                     "s3:prefix": [
@@ -80,7 +80,7 @@ Snowflakeが必要とするS3へのアクセス権限を定義したIAMポリシ
 
 作成したポリシーをアタッチするためのAWSのロールの作成を行う。
 作成方法に関しては[ドキュメント](https://docs.snowflake.com/en/user-guide/data-load-s3-config-storage-integration)を参照、作成結果は下記の通り。
-- ロール名：`snowflakerole_capstone_hwatari`
+- ロール名：`snowflakerole_aaaaaaaa_hwatari`
 - 概要：↓
 
 ![IAMロールの概要](image/role.png)
@@ -97,12 +97,12 @@ Snowflakeが必要とするS3へのアクセス権限を定義したIAMポリシ
 `CREATE STORAGE INTEGRATION` コマンドで、S3への接続情報を定義します。`STORAGE_AWS_ROLE_ARN` にはステップ1で作成したIAMロールのARNを、`STORAGE_ALLOWED_LOCATIONS` にはアクセスを許可するS3バケットを指定します。
 
 ```sql
-CREATE or replace STORAGE INTEGRATION capstone_s3_integration
+CREATE or replace STORAGE INTEGRATION aaaaaaaa_s3_integration
   TYPE = EXTERNAL_STAGE
   STORAGE_PROVIDER = 'S3'
   ENABLED = TRUE
-  STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::021891591907:role/snowflakerole_capstone_hwatari'
-  STORAGE_ALLOWED_LOCATIONS = ('s3://capstone-hwatari/')
+  STORAGE_AWS_ROLE_ARN = 'arn:aws:iam::021891591907:role/snowflakerole_aaaaaaaa_hwatari'
+  STORAGE_ALLOWED_LOCATIONS = ('s3://aaaaaaaa-hwatari/')
 ```
 
 #### 2. SnowflakeのIAMユーザー情報を取得
@@ -110,7 +110,7 @@ CREATE or replace STORAGE INTEGRATION capstone_s3_integration
 `DESCRIBE INTEGRATION` コマンドを実行して、Snowflakeが自動生成したIAMユーザーのARN (`STORAGE_AWS_IAM_USER_ARN`) と外部ID (`STORAGE_AWS_EXTERNAL_ID`) を取得します。
 
 ```sql
-DESC INTEGRATION capstone_s3_integration;
+DESC INTEGRATION aaaaaaaa_s3_integration;
 ```
 
 #### 3. AWS IAMロールの信頼関係を更新
@@ -142,11 +142,11 @@ DESC INTEGRATION capstone_s3_integration;
 最後に、作成したストレージ統合を利用して外部ステージを作成します。
 
 ```sql
-USE SCHEMA capstone.public;
+USE SCHEMA aaaaaaaa.public;
 
-CREATE or replace STAGE capstone_s3_stage
-  STORAGE_INTEGRATION = capstone_s3_integration
-  URL = 's3://capstone-hwatari/'
+CREATE or replace STAGE aaaaaaaa_s3_stage
+  STORAGE_INTEGRATION = aaaaaaaa_s3_integration
+  URL = 's3://aaaaaaaa-hwatari/'
 ```
 
 これで、SnowflakeからS3バケットへ安全にアクセスする準備が整いました。
